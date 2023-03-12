@@ -86,11 +86,21 @@ export default function Game() {
     drawPlayer(ctx, player2);
   }
 
+  function movePlayer1(event){
+    if(event.key === 'w' && player1.y > 0){
+      player1.y -= 10;
+    }
+    if(event.key === 's' && player1.y < canvasHeight - player1.height){
+      player1.y += 10;
+    }
+  }
+
   function draw(ctx, _frameCount){
     clearCanvas(ctx);
     drawBackground(ctx);
     drawBall(ctx);
     drawPlayers(ctx);
+    window.addEventListener('keydown', movePlayer1);
   }
   
   return (
