@@ -96,12 +96,22 @@ export default function Game() {
     }
   }
 
+  function movePlayer2(event){
+    if(event.key === 'ArrowUp' && player2.y > 0){
+      player2.y -= playerSpeed;
+    }
+    if(event.key === 'ArrowDown' && player2.y < canvasHeight - player2.height){
+      player2.y += playerSpeed;
+    }
+  }
+
   function draw(ctx, _frameCount){
     clearCanvas(ctx);
     drawBackground(ctx);
     drawBall(ctx);
     drawPlayers(ctx);
     window.addEventListener('keydown', movePlayer1);
+    window.addEventListener('keydown', movePlayer2);
   }
   
   return (
