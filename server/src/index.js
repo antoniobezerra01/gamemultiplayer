@@ -18,6 +18,8 @@ io.listen(PORT);
 
 const sockets = [];
 
+const players = [];
+
 const ball = {
   x: 0,
   y: 0,
@@ -28,15 +30,36 @@ const ballSpeed = 5;
 const canvasWidth = 800;
 const canvasHeight = 400;
 
+function markPoint(player){
+  const index = players.findIndex((p) => p.id === player.id);
+  players[index].points += 1;
+  io.emit('markPoint', {
+    id: players[index].id,
+    points: players[index].points,
+  });
+}
+
 function moveBall(){
+  if(players.length < 2){
+    ball.x = canvasWidth / 2;
+    ball.y = canvasHeight / 2;
+    return;
+  }
+
   ball.x += ballSpeed * ball.moveRight;
   ball.y += ballSpeed * ball.moveDown;
 
   if(ball.x >= canvasWidth - 10){
     ball.moveRight = -1;
+    if(players[1]){
+      markPoint(players[1]);
+    }
   }
   if(ball.x <= 10){
     ball.moveRight = 1;
+    if(players[0]){
+      markPoint(players[0]);
+    }
   }
   if(ball.y >= canvasHeight - 10){
     ball.moveDown = -1;
@@ -46,7 +69,23 @@ function moveBall(){
   }
 }
 
+function restartGame(){
+  ball.x = canvasWidth / 2;
+  ball.y = canvasHeight / 2;
+  players.forEach(function(player){
+    player.points = 0;
+  });
+
+  io.emit('restartGame');
+}
+
 function gameLoop(){
+  players.forEach(function(player){
+    if(player.points === 5){
+      io.emit('gameOver', player);
+    }
+  });
+
   moveBall();
   io.emit('ballPosition', ball);
 
@@ -58,13 +97,25 @@ function gameLoop(){
 }
 
 io.on('connection', (socket) => {
-  console.log('New client connected');
+  console.log('New client connected with id: ', socket.id);
+  if(sockets.length === 2){ 
+    socket.emit('gameFull');
+    return;
+  }
   sockets.push(socket);
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
+  players.push({ id: socket.id, y: 0, points: 0 });
 
-    const index = sockets.indexOf(socket);
+
+  socket.on('disconnect', () => {
+    console.log(`Client ${socket.id} disconnected`);
+
+    const index = sockets.findIndex((s) => s.id === socket.id);
     sockets.splice(index, 1);
+
+    const playerIndex = players.findIndex((p) => p.id === socket.id);
+    players.splice(playerIndex, 1);
+
+    restartGame();
   });
 });
 
