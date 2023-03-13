@@ -38,16 +38,33 @@ export default function Game() {
 
     if(ball.x >= canvasWidth - 10){
       ball.moveRight = -1;
+      countPoints(player1Points + 1, player2Points);
     }
+
     if(ball.x <= 10){
       ball.moveRight = 1;
     }
     if(ball.y >= canvasHeight - 10){
       ball.moveDown = -1;
+      countPoints(player1Points, player2Points + 1);
     }
+
     if(ball.y <= 10){
       ball.moveDown = 1;
     }
+    if(ball.x >= player2.x && ball.y >= player2.y && ball.y <= player2.y + player2.height){
+      ball.moveRight = -1;
+    }
+    if(ball.x <= player1.x + player1.width && ball.y >= player1.y && ball.y <= player1.y + player1.height){
+      ball.moveRight = 1;
+    }
+  }
+
+  function countPoints(player1, player2){
+    player1Points = player1;
+    player2Points = player2;
+    ctx.fillText(player1, 10, 50);
+    ctx.fillText(player2, canvasWidth - 10, 50);
   }
 
   //Game loop
@@ -110,6 +127,7 @@ export default function Game() {
     drawBackground(ctx);
     drawBall(ctx);
     drawPlayers(ctx);
+    countPoints(player1Points, player2Points);
     window.addEventListener('keydown', movePlayer1);
     window.addEventListener('keydown', movePlayer2);
   }
