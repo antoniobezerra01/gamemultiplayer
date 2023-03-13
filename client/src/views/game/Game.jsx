@@ -1,12 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Canvas from "../../components/canvas/Canvas";
 
-export default function Game() {
-
+export default function Game({ socket }) {
   const playerColor = '#ffffff';
   const ballColor = '#ffffff';
   const backgroundColor = '#000000';
-  const ballSpeed = 3;
   const canvasWidth = 800;
   const canvasHeight = 400;
   const playerSpeed = 10;
@@ -25,38 +23,29 @@ export default function Game() {
     height: 80,
   };
 
-  const ball = {
-    x: 0,
-    y: 0,
-    moveRight: 1,
-    moveDown: 1,
-  }
+  const ball = useMemo(() => {
+    return {
+      x: 0,
+      y: 0,
+      moveRight: 1,
+      moveDown: 1,
+    }
+  }, []);
 
-  function moveBall(){
-    ball.x += ballSpeed * ball.moveRight;
-    ball.y += ballSpeed * ball.moveDown;
-
-    if(ball.x >= canvasWidth - 10){
-      ball.moveRight = -1;
-    }
-    if(ball.x <= 10){
-      ball.moveRight = 1;
-    }
-    if(ball.y >= canvasHeight - 10){
-      ball.moveDown = -1;
-    }
-    if(ball.y <= 10){
-      ball.moveDown = 1;
-    }
-  }
-
-  //Game loop
   useEffect(() => {
-    const interval = setInterval(() => {
-      moveBall();
-    }, 1000 / 60);
-    return () => clearInterval(interval);
-  });
+    socket.on('connect', () => {
+      console.log('Connected to server');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server');
+    });
+
+    socket.on('ballPosition', (data) => {
+      ball.x = data.x;
+      ball.y = data.y;
+    });
+  }, [socket, ball]);
 
   function clearCanvas(ctx){
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
