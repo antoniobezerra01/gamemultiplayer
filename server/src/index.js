@@ -26,7 +26,7 @@ const ball = {
   moveRight: 1,
   moveDown: 1,
 }
-const ballSpeed = 5;
+let ballSpeed = 5;
 const canvasWidth = 800;
 const canvasHeight = 400;
 
@@ -37,6 +37,8 @@ function markPoint(player){
     id: players[index].id,
     points: players[index].points,
   });
+
+  ballSpeed += 1;
 }
 
 function moveBall(){
@@ -75,6 +77,7 @@ function restartGame(){
   players.forEach(function(player){
     player.points = 0;
   });
+  ballSpeed = 5;
 
   io.emit('restartGame');
 }
