@@ -4,3 +4,8 @@
 
 Estando na pasta "client/" execute o comando `npm install` para instalar as dependências do projeto.\ 
 Após isto rode o comando `npm start` para iniciar o projeto localmente.
+
+## Rodando o server
+
+Estando na pasta "server/" execute o comando `npm install` para instalar as dependências do projeto.\ 
+Após isto rode o comando `npm start` para iniciar o projeto localmente.
