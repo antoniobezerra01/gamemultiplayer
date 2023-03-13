@@ -9,6 +9,7 @@ export default function Game() {
   const ballSpeed = 3;
   const canvasWidth = 800;
   const canvasHeight = 400;
+  const playerSpeed = 10;
 
   const player1 = {
     x: 20,
@@ -88,10 +89,10 @@ export default function Game() {
 
   function movePlayer1(event){
     if(event.key === 'w' && player1.y > 0){
-      player1.y -= 10;
+      player1.y -= playerSpeed;
     }
     if(event.key === 's' && player1.y < canvasHeight - player1.height){
-      player1.y += 10;
+      player1.y += playerSpeed;
     }
   }
 
