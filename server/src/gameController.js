@@ -6,21 +6,33 @@ export default function gameController(io){
     moveRight: 1,
     moveDown: 1,
   }
+  let started = false;
 
   let ballSpeed = 5;
+  const neededPoints = 10;
   const canvasWidth = 800;
   const canvasHeight = 400;
 
   function addPlayer(player){
     players.push(player);
+
+    if(players.length === 2){
+      ball.x = canvasWidth / 2;
+      ball.y = canvasHeight / 2;
+
+      started = true;
+      io.emit('startGame');
+    }
   }
 
   function removePlayer(player){
     const index = players.findIndex((p) => p.id === player.id);
     players.splice(index, 1);
+
+    restartGame();
   }
 
-  function markPoint(player, callback){
+  function markPoint(player){
     const index = players.findIndex((p) => p.id === player.id);
     players[index].points += 1;
     io.emit('markPoint', {
@@ -31,13 +43,18 @@ export default function gameController(io){
     ballSpeed += 1;
   }
 
-  function moveBall(){
-    if(players.length < 2){
-      ball.x = canvasWidth / 2;
-      ball.y = canvasHeight / 2;
-      return;
-    }
+  function checkWin(){
+    players.forEach(function(player){
+      if(player.points >= neededPoints){
+        io.emit('gameOver', player);
+        started = false;
 
+        restartGame();
+      }
+    });
+  }
+
+  function moveBall(){
     ball.x += ballSpeed * ball.moveRight;
     ball.y += ballSpeed * ball.moveDown;
 
@@ -68,25 +85,22 @@ export default function gameController(io){
       player.points = 0;
     });
     ballSpeed = 5;
+    started = false;
 
+    io.emit('ballPosition', ball);
     io.emit('restartGame');
   }
 
   function gameLoop(){
-    players.forEach(function(player){
-      if(player.points === 5){
-        io.emit('gameOver', player);
-      }
-    });
+    if(started) {
+      moveBall();
+      io.emit('ballPosition', ball);
 
-    moveBall();
-    io.emit('ballPosition', ball);
+      checkWin();
+    }
 
-    const timeout = setTimeout(gameLoop, 1000 / 60);
-
-    // if(sockets.length === 0){
-    //   clearTimeout(timeout);
-    // }
+    // Recursive call to gameLoop
+    setTimeout(gameLoop, 1000 / 60);
   }
 
   gameLoop();

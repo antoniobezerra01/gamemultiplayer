@@ -22,7 +22,7 @@ const gameController = game(io);
 const sockets = [];
 
 io.on('connection', (socket) => {
-  console.log('New client connected with id: ', socket.id);
+  console.log(`Client ${socket.id} connected`);
   if(sockets.length === 2){ 
     socket.emit('gameFull');
     return;
@@ -41,6 +41,5 @@ function socketController(socket) {
     sockets.splice(index, 1);
 
     gameController.removePlayer({ id: socket.id });
-    gameController.restartGame();
   });
 }
