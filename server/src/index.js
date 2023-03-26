@@ -2,7 +2,12 @@ import express from 'express';
 import { Server } from 'socket.io';
 import http from 'http';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 import game from './gameController.js';
+
 const PORT = process.env.PORT || 4000;
 
 const app = express();
@@ -17,6 +22,10 @@ const io = new Server(server, {
 
 io.listen(PORT);
 
+app.listen(PORT + 1, () => {
+  console.log(`Server is running on port ${PORT + 1}`);
+});
+
 const gameController = game(io);
 
 const sockets = [];
@@ -28,6 +37,7 @@ io.on('connection', (socket) => {
     return;
   }
   sockets.push(socket);
+  socket.emit('whoAmI', { player: sockets.length });
   gameController.addPlayer({ id: socket.id, y: 0, points: 0 });
 
   socketController(socket);
@@ -42,4 +52,16 @@ function socketController(socket) {
 
     gameController.removePlayer({ id: socket.id });
   });
+
+  socket.on('movePlayer', (data) => {
+    gameController.movePlayer(data);
+  });
 }
+
+// Serve statically build client from '../../client/build'
+app.use(express.static(path.join(__dirname, '../../client/build')));
+
+app.get('/', (req, res) => {
+  res.send(500).end();
+  res.sendFile(path.join(__dirname, '../../client/build', 'index.html'));
+});

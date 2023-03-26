@@ -8,12 +8,14 @@ export default function gameController(io){
   }
   let started = false;
 
-  let ballSpeed = 5;
+  let ballSpeed = 4;
+  const playerHeight = 80;
   const neededPoints = 10;
   const canvasWidth = 800;
   const canvasHeight = 400;
 
   function addPlayer(player){
+    player.isRightPlayer = players.length === 1;
     players.push(player);
 
     if(players.length === 2){
@@ -54,6 +56,25 @@ export default function gameController(io){
     });
   }
 
+  function checkCollision(){
+    players.forEach(function(player){
+      const { y: playerY, isRightPlayer } = player;
+      const { x: ballX, y: ballY } = ball;
+
+      if(isRightPlayer){
+        if(ballX >= canvasWidth - 40 && ballY >= playerY && ballY <= playerY + playerHeight){
+          ball.moveRight = -1;
+          console.log('collision', { ballX, ballY, playerY, playerHeight, isRightPlayer })
+        }
+      }else{
+        if(ballX <= 40 && ballY >= playerY && ballY <= playerY + playerHeight){
+          ball.moveRight = 1;
+          console.log('collision', { ballX, ballY, playerY, playerHeight, isRightPlayer })
+        }
+      }
+    });
+  }
+
   function moveBall(){
     ball.x += ballSpeed * ball.moveRight;
     ball.y += ballSpeed * ball.moveDown;
@@ -78,6 +99,16 @@ export default function gameController(io){
     }
   }
 
+  function movePlayer(data){
+    const index = players.findIndex((p) => p.id === data.id);
+    const player = players[index];
+    const direction = data.direction;
+
+    player.y = Math.min(Math.max(player.y + direction * 10, 0), canvasHeight - playerHeight);
+
+    io.emit('playerPosition', players[index]);
+  }
+
   function restartGame(){
     ball.x = canvasWidth / 2;
     ball.y = canvasHeight / 2;
@@ -93,9 +124,9 @@ export default function gameController(io){
 
   function gameLoop(){
     if(started) {
+      checkCollision();
       moveBall();
       io.emit('ballPosition', ball);
-
       checkWin();
     }
 
@@ -110,6 +141,7 @@ export default function gameController(io){
     removePlayer,
     markPoint,
     moveBall,
+    movePlayer,
     restartGame,
   }
 }
