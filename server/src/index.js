@@ -30,6 +30,10 @@ io.on('connection', (socket) => {
   sockets.push(socket);
   gameController.addPlayer({ id: socket.id, y: 0, points: 0 });
 
+  socketController(socket);
+});
+
+function socketController(socket) {
   socket.on('disconnect', () => {
     console.log(`Client ${socket.id} disconnected`);
 
@@ -37,7 +41,6 @@ io.on('connection', (socket) => {
     sockets.splice(index, 1);
 
     gameController.removePlayer({ id: socket.id });
-
     gameController.restartGame();
   });
-});
+}
