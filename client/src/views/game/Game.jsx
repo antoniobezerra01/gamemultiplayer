@@ -2,35 +2,43 @@ import { useEffect, useMemo, useState } from "react";
 import Canvas from "../../components/canvas/Canvas";
 
 export default function Game({ socket }) {
-  console.log('Meu id é:', socket);
   const playerColor = '#ffffff';
   const ballColor = '#ffffff';
   const backgroundColor = '#000000';
   const canvasWidth = 800;
   const canvasHeight = 400;
   const pointsFontSize = 30;
-  const playerSpeed = 10;
+
+  const playerActions = {
+    'w': () =>{
+      socket.emit('movePlayer', { id: socket.id, direction: -1 });
+    },
+    's': () =>{
+      socket.emit('movePlayer', { id: socket.id, direction: 1 });
+    }
+  }
 
   const [player1Points, setPlayer1Points] = useState(0);
   const [player2Points, setPlayer2Points] = useState(0);
+  const [whoAmI, setWhoAmI] = useState(1);
 
-  const player1 = useMemo(() => {
-    return {
-      x: 20,
-      y: 20,
-      width: 10,
-      height: 80,
-    }
-  }, []);
+  const [player1, setPlayer1] = useState({
+    x: 20,
+    y: 20,
+    width: 10,
+    height: 80,
+    isMoving: false,
+    moveDirection: 1,
+  });
 
-  const player2 = useMemo(() => {
-    return {
-      x: canvasWidth - 20 - 10,
-      y: 20,
-      width: 10,
-      height: 80,
-    }
-  }, []);
+  const [player2, setPlayer2] = useState({
+    x: canvasWidth - 20 - 10,
+    y: 20,
+    width: 10,
+    height: 80,
+    isMoving: false,
+    moveDirection: 1,
+  });
 
   const ball = useMemo(() => {
     return {
@@ -67,13 +75,60 @@ export default function Game({ socket }) {
       console.log('Disconnected from server');
     });
 
+    socket.on('whoAmI', (data) => {
+      const { player } = data;
+      if(player === 1){
+        setPlayer1({
+          ...player1,
+          x: 20,
+        });
+
+        setPlayer2({
+          ...player2,
+          x: canvasWidth - 20 - 10,
+        });
+      } else{
+        setPlayer1({
+          ...player1,
+          x: canvasWidth - 20 - 10,
+        });
+
+        setPlayer2({
+          ...player2,
+          x: 20,
+        });
+      }
+
+      setWhoAmI(player);
+    });
+
     socket.on('ballPosition', (data) => {
-      ball.x = data.x;
-      ball.y = data.y;
+      if(whoAmI){
+        ball.x = data.x;
+        ball.y = data.y;
+      }else{
+        ball.x = canvasWidth - data.x;
+        ball.y = canvasHeight - data.y;
+      }
+    });
+
+    socket.on('playerPosition', (data) => {
+      if(data.id === socket.id){
+        setPlayer1({
+          ...player1,
+          y: data.y,
+        });
+      }
+      else{
+        setPlayer2({
+          ...player2,
+          y: data.y,
+        });
+      }
     });
 
     socket.on('markPoint', (player) => {
-      console.log('Marcou ponto', player);
+      // console.log('Marcou ponto', player);
       if(player.id === socket.id){
         setPlayer1Points(player.points);
       }
@@ -86,7 +141,7 @@ export default function Game({ socket }) {
       setPlayer1Points(0);
       setPlayer2Points(0);
     });
-  }, [socket, ball, player1Points, player2Points]);
+  }, [socket, ball, player1Points, player2Points, player1]);
 
   function clearCanvas(ctx){
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -118,21 +173,7 @@ export default function Game({ socket }) {
   }
 
   function movePlayer1(event){
-    if(event.key === 'w' && player1.y > 0){
-      player1.y -= playerSpeed;
-    }
-    if(event.key === 's' && player1.y < canvasHeight - player1.height){
-      player1.y += playerSpeed;
-    }
-  }
-
-  function movePlayer2(event){
-    if(event.key === 'ArrowUp' && player2.y > 0){
-      player2.y -= playerSpeed;
-    }
-    if(event.key === 'ArrowDown' && player2.y < canvasHeight - player2.height){
-      player2.y += playerSpeed;
-    }
+    playerActions[event.key]();
   }
 
   function draw(ctx, _frameCount){
@@ -142,9 +183,14 @@ export default function Game({ socket }) {
     drawPlayers(ctx);
     drawPoints(ctx);
     drawMiddleLine(ctx);
-    window.addEventListener('keydown', movePlayer1);
-    window.addEventListener('keydown', movePlayer2);
   }
+
+  useEffect(() =>{
+    window.addEventListener('keydown', movePlayer1);
+    return () => {
+      window.removeEventListener('keydown', movePlayer1);
+    }
+  });
   
   return (
     <div>
