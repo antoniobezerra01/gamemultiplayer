@@ -1,0 +1,34 @@
+.caixa-de-mensagens {
+    height: 95%;
+    width: 75%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 24%;
+    overflow-x: hidden;
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    align-content: center;
+}
+
+.item-mensagem {
+    width: 99%;
+}
+
+.caixa-de-resposta {
+    background-color: red;
+    bottom: 100%;
+}
+
+input[type=text]{
+    width: 70%;
+    position: fixed;
+    right: 5%;
+    bottom: 0.5%;
+}
+
+button {
+    position: fixed;
+    bottom: 0.5%;
+    right: 0.5%;
+}
