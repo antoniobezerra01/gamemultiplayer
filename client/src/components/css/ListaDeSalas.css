@@ -1,0 +1,65 @@
+.caixa-salas {
+    height: 50%;
+    width: 23%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background-color: red;
+    overflow-x: hidden; /* Desativa a barra de rolagem horizontal */
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    align-content: center;
+    text-align: center;
+}
+
+.sub-caixa-salas {
+    height: 30%;
+    width: 23%;
+    position: fixed;
+    bottom: 10%;
+    left: 0;
+    background-color: firebrick;
+    overflow-x: hidden; /* Desativa a barra de rolagem horizontal */
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    text-align: left;
+}
+
+.top-salas {
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    position: fixed;
+    left: 7%;
+}
+
+.item-salas {
+    background-color: rgb(31, 25, 25);
+    border-color: white;
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.btn-iniciar-jogo {
+    height: 5%;
+    width: 24%;
+    left: 0;
+    bottom: 5%;
+    position: fixed;
+}
+
+.btn-criar-sala {
+    height: 5%;
+    width: 12%;
+    left: 0;
+    bottom: 0%;
+    position: fixed;
+}
+
+.btn-atualizar-sala {
+    height: 5%;
+    width: 12%;
+    left: 12%;
+    bottom: 0%;
+    position: fixed;
+}
