@@ -16,7 +16,7 @@ socket.emit('nomeDaFuncao',dados); //Utilizado para emitir mensagens para todos 
 
 socket.emit('nomeDaFuncao',dados).to(outroSocketID); //Utilizado para emitir mensagens específicas entre dois ou mais sockets
 
-socket.on('nomeDaFuncao', (dados) => {funcao}); //Utilizado para tratar mensagens do client ou do server (pode ser encadeado com socket.emit)
+socket.on('nomeDaFuncao', (dados) => {funcao}); //Utilizado para tratar mensagens do client ou do server
 
 socket.join('nomeDaSala',outroSocketID); //Utilizado para juntar um socket à sala de broadcast de outro socket
 
