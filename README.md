@@ -27,3 +27,5 @@ sockets.in('nomeDaSala') //Utilizado para se comunicar com todos os sockets de u
 sockets.in('nomeDaSala').disconnectSockets(); //Utilizado para cortar a comunincação de todos os sockets de uma sala de broadcast
 
 É importante ressaltar que o Handshake pode ser aplicado ao utilizarmos um socket.emit dentro de um componente 'Client' para os sockets existentes dentro de uma URL, por exemplo, 'http://localhost:4000', sendo respondido pelo componente 'Server' através de um socket.on e um socket.emit, e atualizando a página do socket responsável pela comunicação inicial com a resposta final do servidor. Obs: o mesmo pode ser aplicado entre componentes do mesmo tipo 'Client-2-Client' e 'Server=2-Server'.
+
+![jrRtz-What-is-SSL-TLS--and-handshaking](https://user-images.githubusercontent.com/89958956/231741780-59135855-6964-45a6-8cce-324bb024facc.png)
