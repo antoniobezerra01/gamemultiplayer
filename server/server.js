@@ -69,7 +69,6 @@ sockets.on('connection', (socket) => {
         const idConvidado = socket.id;
         const qtdJogadores = 1;
         jogo.salas[socket.id] = { nomeDaSala, idDono, idConvidado, qtdJogadores };
-        jogo.salas[socket.id].existe = true;
         socket.join(sala);
         console.log(`${socket.id} criou uma sala. [id (dono): ${jogo.salas[socket.id].idDono} | id (convidado): ${jogo.salas[socket.id].idConvidado} | nome: ${jogo.salas[socket.id].nomeDaSala}],`);
         enviarMensagemEntreClientes(jogo.jogadores[socket.id],'criou uma sala de jogo.');
@@ -109,6 +108,14 @@ sockets.on('connection', (socket) => {
             console.log(`${socket.id} saiu da sala. [id (dono): ${jogo.salas[sala.idDono].idDono}`);
             enviarMensagemEntreClientes(jogo.jogadores[socket.id],`saiu da [${jogo.salas[sala.idDono].nomeDaSala}].`);
         }
+        atualizarSalasDoServidor();
+    });
+
+    socket.on('apertarIniciarJogo', function (iniciar, socketAtual) {
+        //Caso o socket a sair da sala seja o Dono
+        sockets.to(jogo.salas[socket.id]).emit('iniciarJogo', iniciar);
+        console.log('Iniciando o jogo na sala', jogo.salas[socketAtual].nomeDaSala);
+
         atualizarSalasDoServidor();
     });
 

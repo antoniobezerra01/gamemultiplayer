@@ -14,14 +14,14 @@ const Chat = (props) => {
     };
 
     return (
-        <div class='caixa-de-mensagens'>
+        <div className='caixa-de-mensagens'>
             {listaDeMensagens.map((item) => {
                 return (
-                    <div class="item-mensagem">{item}</div>
+                    <div className="item-mensagem" key={item}>{item}</div>
                 )
             })}
-            <input class='input-enviar-mensagem' maxLength={64} placeholder='Escreva sua mensagem aqui e tecle ENTER para enviar. (max: 64 caracteres)' type="text" value={mensagem} onChange={(e) => setMensagem(e.target.value)} onKeyDown={pressionarEnter}/>
-            <button class='btn-enviar-mensagem' onClick={() => {props.enviarMensagem(mensagem); setMensagem('')}}>Enviar</button>
+            <input className='input-enviar-mensagem' maxLength={64} placeholder='Escreva sua mensagem aqui e tecle ENTER para enviar. (max: 64 caracteres)' type="text" value={mensagem} onChange={(e) => setMensagem(e.target.value)} onKeyDown={pressionarEnter}/>
+            <button className='btn-enviar-mensagem' onClick={() => {props.enviarMensagem(mensagem); setMensagem('')}}>Enviar</button>
         </div>
     );
 };

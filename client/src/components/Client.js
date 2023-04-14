@@ -3,6 +3,7 @@ import {io} from 'socket.io-client'
 import ListaDeJogadores from './ListaDeJogadores';
 import Chat from './Chat';
 import ListaDeSalas from './ListaDeSalas';
+import Modal from './Modal';
 
 const socket = io('http://localhost:4000');
 
@@ -11,10 +12,12 @@ const Client = () => {
     const [jogadores, setJogadores] = useState({});
     const [salas, setSalas] = useState({});
     const [mensagens, setMensagens] = useState('');
+    const [openGameModal, setOpenGameModal] = useState(false);
     
     //Método responsável por sinalizar ao cliente que ele foi conectado.
     useEffect(() => {
         socket.on('connect', () => {console.log('Conectado!');});
+        socket.on('iniciarJogo', (iniciar) => {setOpenGameModal(iniciar)});
     }, [/* Dependencias (arquivos necessários para a execução do procedimento)*/]);
 
     //Método responsável por receber a atualização de clientes do servidor
@@ -52,12 +55,24 @@ const Client = () => {
         socket.emit('sairDaSala',sala);
     }
 
+    const iniciarJogo = (iniciar) => {
+        socket.emit('apertarIniciarJogo', iniciar, socket.id);
+    }
+
     return (
         //Criando uma tabela da lista de jogadores, lista de salas e um chat
         <div>
             <ListaDeJogadores jogadores={jogadores}/>
-            <ListaDeSalas interagirSala={interagirSala} sairDaSala={sairDaSala} salas={salas}/>
+            <ListaDeSalas iniciarJogo={iniciarJogo} interagirSala={interagirSala} sairDaSala={sairDaSala} salas={salas} socketAtual={socket.id}/>
             <Chat enviarMensagem={enviarMensagem} mensagens={mensagens}/>
+            <Modal
+                key="modal"
+                show={openGameModal}
+                onClose={() => setOpenGameModal(false)}
+                title="Jogo"
+            >
+                <h1>Hello World!</h1>
+            </Modal>
         </div>
     );
 };
