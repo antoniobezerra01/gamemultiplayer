@@ -1,0 +1,79 @@
+import React, { useEffect, useState } from 'react';
+import {io} from 'socket.io-client'
+import ListaDeJogadores from './ListaDeJogadores';
+import Chat from './Chat';
+import ListaDeSalas from './ListaDeSalas';
+import Modal from './Modal';
+
+const socket = io('http://localhost:4000');
+
+//Criando o componente Pong de Jogo
+const Client = () => {
+    const [jogadores, setJogadores] = useState({});
+    const [salas, setSalas] = useState({});
+    const [mensagens, setMensagens] = useState('');
+    const [janelaDeJogo, setJanelaDeJogo] = useState(false);
+
+    //Método responsável por sinalizar ao cliente que ele foi conectado.
+    useEffect(() => {
+        socket.on('connect', () => {console.log('Conectado!');});
+    }, [/* Dependencias (arquivos necessários para a execução do procedimento)*/]);
+
+    //Método responsável por receber a atualização de clientes do servidor
+    useEffect(() => {
+        socket.on('atualizarClientes', (jogadores) => {setJogadores(jogadores)});
+    }, [jogadores]);
+
+    //Método responsável por receber do servidor a atualização da caixa de mensagens de todos os clientes
+    useEffect(() => {
+        socket.on('receberMensagem', (mensagemRecebida) => {
+            setMensagens(mensagens + mensagemRecebida + '\n')});
+    }, [mensagens]);
+
+    //Método responsável por enviar do servidor a atualização de salas de jogo à todos os clientes
+    useEffect(() => {
+        socket.on('atualizarSalas', (salas) => {setSalas(salas)});
+    }, [salas]);
+
+    //Método responsável por enviar do servidor a abertura de janela de jogo
+    useEffect(() => {
+        socket.on('iniciarJogo', () => {setJanelaDeJogo(true)})
+    }, [janelaDeJogo]);
+
+    const enviarMensagem = (mensagem) => {
+        //Envia a mensagem à todos somente se ela não for inválida
+        if(!(!mensagem || /^\s*$/.test(mensagem)))
+            socket.emit('enviarMensagem', mensagem);
+    }
+
+    const interagirSala = (sala) => {
+        if(sala === "")
+            socket.emit('criarSala');
+        else if(sala === "+")
+            socket.emit('atualizarListaDeSalas');
+        else
+            socket.emit('acessarSala', sala);
+    }
+
+    const sairDaSala = (sala) => {
+        socket.emit('sairDaSala',sala);
+    }
+
+    const iniciarJanelaDeJogo = () => {
+        socket.emit('iniciarJanelaDeJogo');
+    }
+
+    return (
+        //Criando uma tabela da lista de jogadores, lista de salas e um chat
+        <div>
+            <ListaDeJogadores jogadores={jogadores}/>
+            <ListaDeSalas iniciarJanelaDeJogo={iniciarJanelaDeJogo} interagirSala={interagirSala} sairDaSala={sairDaSala} salas={salas} socketAtual={socket.id}/>
+            <Chat enviarMensagem={enviarMensagem} mensagens={mensagens}/>
+            <Modal key="modal" show={janelaDeJogo} onClose={() => setJanelaDeJogo(false)} title="Jogo">
+                <h1>Teu socket é esse aqui ó: {socket.id}.!</h1>
+            </Modal>
+        </div>
+    );
+};
+
+export default Client;
