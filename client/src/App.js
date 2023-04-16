@@ -1,12 +1,12 @@
-import './App.css';
-import Game from './views/game/Game';
-import socketIO from 'socket.io-client';
+import React from 'react';
+//Importando os Componentes Utilizados
+import Client from "./components/Client";
 
-const socket = socketIO('http://localhost:4000');
+//Criando o Componente Core da Aplicação
 function App() {
   return (
-    <div className="App">
-      <Game socket={socket} />
+    <div>
+        <Client/>
     </div>
   );
 }

@@ -1,0 +1,42 @@
+.caixa-jogadores {
+    height: 50%;
+    width: 23%;
+    position: fixed;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    background-color: black;
+    overflow-x: hidden; /* Desativa a barra de rolagem horizontal */
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    align-content: center;
+    text-align: center;
+}
+
+.sub-caixa-jogadores {
+    height: 41%;
+    width: 23%;
+    position: fixed;
+    top: 8%;
+    left: 0;
+    background-color: black;
+    overflow-x: hidden; /* Desativa a barra de rolagem horizontal */
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    align-content: center;
+}
+
+.top-jogadores {
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-align: center;
+    position: fixed;
+    left: 3%;
+}
+
+.item-jogadores {
+    background-color: rgb(31, 25, 25);
+    border-color: white;
+    color: white;
+    font-family:'Courier New', Courier, monospace;
+}
