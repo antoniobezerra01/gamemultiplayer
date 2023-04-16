@@ -22,9 +22,9 @@ Após isto rode o comando `npm start` para iniciar o projeto localmente.
 
 `socket.leave('nomeDaSala',outroSocketID);` //Utilizado para remover um socket de uma sala de broadcast
 
-`sockets.in('nomeDaSala');` ou `sockets.to('nomeDaSala')` //Utilizado para se comunicar com todos os sockets de uma sala (pode ser combinado com socket.emit e socket.on)
+`sockets.in('nomeDaSala');` ou `sockets.to('nomeDaSala');` //Utilizado para comunicar todos os sockets de uma sala (pode ser combinado com socket.emit e socket.on)
 
-`sockets.in('nomeDaSala').disconnectSockets();` //Utilizado para cortar a comunincação de todos os sockets de uma sala de broadcast
+`sockets.leave('nomeDaSala');` //Utilizado para remover todos os sockets de uma sala de broadcast
 
 É importante ressaltar que o Handshake pode ser aplicado ao utilizarmos um socket.emit dentro de um componente 'Client' para os sockets existentes dentro de uma URL, por exemplo, 'http://localhost:4000', sendo respondido pelo componente 'Server' através de um socket.on e um socket.emit, e atualizando a página do socket responsável pela comunicação inicial com a resposta final do servidor. Obs: o mesmo pode ser aplicado entre componentes do mesmo tipo 'Client-2-Client' e 'Server=2-Server'.
 
