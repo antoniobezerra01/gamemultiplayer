@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './css/Modal.css';
-import exitIcon from '../img/exit-icon.png';
+// import exitIcon from '../img/exit-icon.png';
 
 const Modal = (props) => {
   const closeOnEscapeKeyDown = (e) => {
@@ -21,7 +21,7 @@ const Modal = (props) => {
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
         {props.title}
-        <button onClick={props.onClose}><img src={exitIcon}/></button>
+        <button onClick={props.onClose}><img alt="../img/exit-icon.png"/></button>
         </div>
         <div className="modal-body">
           {props.children}
