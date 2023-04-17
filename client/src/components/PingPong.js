@@ -6,8 +6,6 @@ const PingPong = (props) => {
     const largura = 800, altura = 400, tamanhoDaFonte = 30;
 
     const [iniciarPartida, setIniciarPartida] = useState(false);
-    const [reiniciarRound, setReiniciarRound] = useState(false);
-    const [finalizarPartida, setFinalizarPartida] = useState(false);
 
     const [jogador1] = useState({
         x: 20,
@@ -45,6 +43,31 @@ const PingPong = (props) => {
             setIniciarPartida(true);
     }, [props.comandoDoJogador2]);
 
+    useEffect(() => {
+        if(props.finalizarJogo){
+            bola.x = largura/2;
+            bola.y = altura/2;
+            bola.direcao = [0,0];
+            bola.velocidade = 3;
+
+            jogador1.x = 20;
+            jogador1.y = altura/2-(altura*0.1);
+            jogador1.largura = 10;
+            jogador1.altura = 80;
+            jogador1.pontos = 0;
+            jogador1.velocidade = 1;
+            jogador1.direcao = 0;
+
+            jogador2.x = largura - 20 - 10;
+            jogador2.y = altura/2-(altura*0.1);
+            jogador2.largura = 10;
+            jogador2.altura = 80;
+            jogador2.pontos = 0;
+            jogador2.velocidade = 1;
+            jogador2.direcao = 0;
+        }
+    }, [props.finalizarJogo]);
+
     function limparCanvas(ctx){
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     };
@@ -53,10 +76,32 @@ const PingPong = (props) => {
         ctx.font = `${tamanhoDaFonte}px Arial`;
         ctx.fillStyle = '#ffffff';
         const distanciaMedia = largura * 0.05;
-        if(jogador1.pontos > 9)
+        if(jogador1.pontos > 9 || jogador2.pontos > 9){
             jogador1.pontos = 0;
-        if(jogador2.pontos > 9)
             jogador2.pontos = 0;
+
+            bola.x = largura/2;
+            bola.y = altura/2;
+            bola.direcao = [0,0];
+            bola.velocidade = 3;
+
+            jogador1.x = 20;
+            jogador1.y = altura/2-(altura*0.1);
+            jogador1.largura = 10;
+            jogador1.altura = 80;
+            jogador1.pontos = 0;
+            jogador1.velocidade = 1;
+            jogador1.direcao = 0;
+
+            jogador2.x = largura - 20 - 10;
+            jogador2.y = altura/2-(altura*0.1);
+            jogador2.largura = 10;
+            jogador2.altura = 80;
+            jogador2.pontos = 0;
+            jogador2.velocidade = 1;
+            jogador2.direcao = 0;
+        }
+        
         ctx.fillText(jogador1.pontos, largura/2 - distanciaMedia, 40);
         ctx.fillText(jogador2.pontos, largura/2 + distanciaMedia - 20, 40);
     };
@@ -111,8 +156,6 @@ const PingPong = (props) => {
                 bola.direcao[1] = -1;
             }
         }
-
-
         
     };
     
