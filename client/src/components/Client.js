@@ -92,7 +92,7 @@ const Client = () => {
             <ListaDeSalas iniciarJogo={iniciarJogo} interagirSala={interagirSala} sairDaSala={sairDaSala} salas={salas} socketAtual={socket.id}/>
             <Chat enviarMensagem={enviarMensagem} mensagens={mensagens}/>
             <Modal key="modal" show={janelaDeJogo} onClose={() => sairDoJogo()} title="Ping Pong">
-                <PingPong comandoDoJogador1={comandoDoJogador1} comandoDoJogador2={comandoDoJogador2}/>
+                <PingPong comandoDoJogador1={comandoDoJogador1} comandoDoJogador2={comandoDoJogador2} finalizarJogo={janelaDeJogo}/>
             </Modal>
         </div>
     );
