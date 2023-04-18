@@ -88,11 +88,31 @@ const Client = () => {
     return (
         //Criando uma tabela da lista de jogadores, lista de salas e um chat
         <div>
-            <ListaDeJogadores jogadores={jogadores}/>
-            <ListaDeSalas iniciarJogo={iniciarJogo} interagirSala={interagirSala} sairDaSala={sairDaSala} salas={salas} socketAtual={socket.id}/>
-            <Chat enviarMensagem={enviarMensagem} mensagens={mensagens}/>
-            <Modal key="modal" show={janelaDeJogo} onClose={() => sairDoJogo()} title="Ping Pong">
-                <PingPong comandoDoJogador1={comandoDoJogador1} comandoDoJogador2={comandoDoJogador2} finalizarJogo={janelaDeJogo}/>
+            <ListaDeJogadores
+                jogadores={jogadores}
+            />
+            <ListaDeSalas
+                iniciarJogo={iniciarJogo}
+                interagirSala={interagirSala}
+                sairDaSala={sairDaSala}
+                salas={salas}
+                socketAtual={socket.id}
+            />
+            <Chat
+                enviarMensagem={enviarMensagem}
+                mensagens={mensagens}
+            />
+            <Modal
+                key="modal"
+                show={janelaDeJogo}
+                onClose={() => sairDoJogo()}
+                title="Ping Pong"
+            >
+                <PingPong
+                    comandoDoJogador1={comandoDoJogador1}
+                    comandoDoJogador2={comandoDoJogador2}
+                    finalizarJogo={janelaDeJogo}
+                />
             </Modal>
         </div>
     );

@@ -40,22 +40,22 @@ const ListaDeSalas = (props) => {
     }
 
     return (
-        <div class="caixa-salas">
-            <h2 class='top-salas'>Salas de Jogo</h2>
-            <div class="sub-caixa-salas">
+        <div className="caixa-salas">
+            <h2 className='top-salas'>Salas de Jogo</h2>
+            <div className="sub-caixa-salas">
             {Object.keys(props.salas).map((key) => (
-                    <div class='item-salas' key={key}>
+                    <div className='item-salas' key={key}>
                         {props.salas[key].nomeDaSala} - {props.salas[key].qtdJogadores}/2
                         <button disabled={desabilitarCriarSala()} onClick={() => props.interagirSala(props.salas[key])}>Entrar</button>
                         <button disabled={desabilitarSairSala()} onClick={() => props.sairDaSala(props.salas[key])}>{trocarContexto()}</button>
                     </div>
                 ))
             }
-            <div class="item-salas">Novas salas aparecerão aqui</div>
+            <div className="item-salas">Novas salas aparecerão aqui</div>
             </div>
-            <button class='btn-iniciar-jogo' disabled={!habilitarJogo()} onClick={() => props.iniciarJogo()}>Iniciar Jogo</button>
-            <button class='btn-criar-sala' disabled={desabilitarCriarSala()} onClick={() => props.interagirSala("")}>Criar Sala</button>
-            <button class='btn-atualizar-sala' onClick={() => props.interagirSala("+")}>Atualizar Lista de Salas</button>
+            <button className='btn-iniciar-jogo' disabled={!habilitarJogo()} onClick={() => props.iniciarJogo()}>Iniciar Jogo</button>
+            <button className='btn-criar-sala' disabled={desabilitarCriarSala()} onClick={() => props.interagirSala("")}>Criar Sala</button>
+            <button className='btn-atualizar-sala' onClick={() => props.interagirSala("+")}>Atualizar Lista de Salas</button>
         </div>
     );
 };
