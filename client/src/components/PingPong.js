@@ -2,8 +2,12 @@ import { useEffect, useState } from "react";
 import Canvas from './Canvas';
 
 const PingPong = (props) => {
-    const corDoJogador = '#ffffff', corDaBola = '#ffffff', corDoFundo = '#000000';
-    const largura = 800, altura = 400, tamanhoDaFonte = 30;
+    const corDoJogador = '#ffffff';
+    const corDaBola = '#ffffff';
+    const corDoFundo = '#000000';
+    const largura = 800;
+    const altura = 400;
+    const tamanhoDaFonte = 30;
 
     const [iniciarPartida, setIniciarPartida] = useState(false);
 
@@ -66,9 +70,10 @@ const PingPong = (props) => {
             jogador2.velocidade = 1;
             jogador2.direcao = 0;
         }
-    }, [props.finalizarJogo]);
+    }, [props.finalizarJogo, bola, jogador1, jogador2, altura, largura]);
 
     function limparCanvas(ctx){
+        if(!ctx || !ctx.canvas || !ctx.canvas.width || !ctx.canvas.height) return;
         ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     };
 
@@ -205,6 +210,8 @@ const PingPong = (props) => {
     };
     
     function desenharJogo(ctx, _frameCount){
+        if(!ctx) return;
+
         limparCanvas(ctx);
         desenharCenario(ctx);
         desenharBola(ctx);

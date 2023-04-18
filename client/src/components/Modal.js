@@ -17,17 +17,32 @@ const Modal = (props) => {
   });
 
   return (
-    <div className={`modal ${props.show ? 'show' : ''}`} onClick={props.onClose}>
-      <div className="modal-content" onClick={e => e.stopPropagation()}>
+    <div
+      className={`modal ${props.show ? 'show' : ''}`}
+      onClick={props.onClose}
+    >
+      <div
+        className="modal-content"
+        onClick={e => e.stopPropagation()}
+      >
         <div className="modal-header">
-        {props.title}
-        <button onClick={props.onClose}><img src={exitIcon}/></button>
+          <h2 className="modal-title">
+            {props.title}
+          </h2>
         </div>
         <div className="modal-body">
           {props.children}
+        </div>
+        <div className="modal-footer">
+          <button onClick={props.onClose}>
+            <h3>
+              Sair do jogo
+            </h3>
+            <img src={exitIcon} alt='Imagem com ícone indicando saída'/>
+          </button>
         </div>
       </div>
     </div>
   )
 }
-export default Modal
+export default Modal;
