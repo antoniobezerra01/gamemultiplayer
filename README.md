@@ -1,8 +1,12 @@
 # Ping Pong Multiplayer
 
-Projeto desenvolvido como forma de avaliação para a disciplina de Redes de Computadores do curso de Ciência da Computação da Universidade Federal do Agreste de Pernambuco. O projeto consiste em um jogo multiplayer de ping pong que utiliza os conceitos lecionados na disciplina para criar uma aplicação que explora a comunicação entre redes em tempo real.
+## :octocat: Integrantes
+[Max David](https://github.com/maxdavidsouza) | [Arthur Costa](https://github.com/arthur007110) | [Antonio Bezerra](https://github.com/antoniobezerra01) | [José Daniel](https://github.com/JoseDanielF)
 
-Grupo formado por: [Max David](https://github.com/maxdavidsouza) | [Arthur Costa](https://github.com/arthur007110) | [Antonio Bezerra](https://github.com/antoniobezerra01) | [José Daniel](https://github.com/JoseDanielF)
+## :page_with_curl: Sobre o Projeto
+Projeto para implementação de um SaaS em Ruby e Rails com foco no servidor para a disciplina de __Rede de Computadores__ ministrado pela Professora Dr. [Kádna Camboim], da UFAPE, referente ao período de 2022.1 com intuito de avaliação para a 2ª Verificação de Aprendizagem.
+
+O projeto baseado no jogo Pong consiste em desenvolver um sistema que permita que dois jogadores possam jogar Pong em computadores diferentes, conectados através de uma rede de computadores. O projeto utiliza a tecnologia de socket para estabelecer a conexão entre os jogadores, permitindo que os dados sejam transmitidos em tempo real entre as máquinas. Cada jogador controla uma raquete no jogo e deve rebater a bola para o campo do adversário, marcando pontos quando a bola ultrapassa a raquete do oponente. Para implementar o projeto, é necessário desenvolver tanto o cliente quanto o servidor que irá se comunicar através dos sockets. O servidor será responsável por gerenciar a conexão entre os jogadores e coordenar a transmissão dos dados do jogo, enquanto o cliente será responsável por receber e enviar informações para o servidor e atualizar a interface gráfica do jogo.
 
 ## Rodando o client
 
