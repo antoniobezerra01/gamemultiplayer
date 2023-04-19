@@ -14,6 +14,7 @@ Utilizar conceitos lecionados na disciplina de Rede de Computadores para criar u
 ## :hammer_and_wrench: Tecnologias Usadas
 ### [React.js](https://react.dev/)
 ### [Node.js](https://nodejs.org/en)
+### [Amazon AWS EC2 Server](https://aws.amazon.com)
 
 ## Rodando o client
 
