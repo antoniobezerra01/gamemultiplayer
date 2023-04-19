@@ -1,5 +1,7 @@
 # Ping Pong Multiplayer
 
+Projeto desenvolvido como forma de avaliação para a disciplina de Redes de Computadores do curso de Ciência da Computação da Universidade Federal do Agreste de Pernambuco. O projeto consiste em um jogo multiplayer de ping pong que utiliza os conceitos lecionados na disciplina para criar uma aplicação que explora a comunicação entre redes em tempo real.
+
 ## Rodando o client
 
 Estando na pasta "client/" execute o comando `npm install` para instalar as dependências do projeto.\ 
