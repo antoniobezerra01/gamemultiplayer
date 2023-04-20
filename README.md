@@ -16,6 +16,8 @@ Utilizar conceitos lecionados na disciplina de Rede de Computadores para criar u
 ### [Node.js](https://nodejs.org/en)
 ### [Amazon AWS EC2 Server](https://aws.amazon.com)
 
+## Acesse a Aplicação Aqui: http://ping-pong-ufape-redes-1075576976.us-east-1.elb.amazonaws.com:3000/
+
 ## Rodando o client
 
 Estando na pasta "client/" execute o comando `npm install` para instalar as dependências do projeto.\ 
