@@ -8,7 +8,7 @@ Projeto para implementação de um game online em React.js e Node.js com foco no
 
 O projeto baseado no jogo Pong consiste em desenvolver um sistema que permita que dois jogadores possam jogar Pong em computadores diferentes, conectados através de uma rede de computadores. O projeto utiliza a tecnologia de socket para estabelecer a conexão entre os jogadores, permitindo que os dados sejam transmitidos em tempo real entre as máquinas. Cada jogador controla uma raquete no jogo e deve rebater a bola para o campo do adversário, marcando pontos quando a bola ultrapassa a raquete do oponente. Para implementar o projeto, é necessário desenvolver tanto o cliente quanto o servidor que irá se comunicar através dos sockets. O servidor será responsável por gerenciar a conexão entre os jogadores e coordenar a transmissão dos dados do jogo, enquanto o cliente será responsável por receber e enviar informações para o servidor e atualizar a interface gráfica do jogo.
 
-### Acesse a Aplicação Aqui: http://ping-pong-ufape-redes-1075576976.us-east-1.elb.amazonaws.com:3000/
+### Acesse a Aplicação Aqui: http://ping-pong-ufape-redes-1075576976.us-east-1.elb.amazonaws.com:3000/ (URL encerrada dia 27/04)
 
 ## :round_pushpin: Objetivos
 Utilizar conceitos lecionados na disciplina de Rede de Computadores para criar uma aplicação que explora a comunicação entre redes em tempo real e desenvolver um jogo multiplayer online com temática do PONG com funcionalidades adicionais em sua lógica de jogo principal.
